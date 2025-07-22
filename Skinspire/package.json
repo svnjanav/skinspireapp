@@ -1,0 +1,17 @@
+{
+    "name": "ai-image-scanner",
+    "version": "1.0.0",
+    "description": "AI-powered image analysis tool using GPT-4 Vision",
+    "main": "public/index.html",
+    "scripts": {
+      "dev": "vercel dev",
+      "build": "echo 'Static site - no build needed'",
+      "start": "vercel dev"
+    },
+    "keywords": ["ai", "image", "analysis", "gpt-4", "vision"],
+    "author": "Your Name",
+    "license": "MIT",
+    "devDependencies": {
+      "@vercel/node": "^3.0.0"
+    }
+  }
