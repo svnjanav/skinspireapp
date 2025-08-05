@@ -1,14 +1,8 @@
-
 {
-    "functions": {
-      "api/analyze.js": {
-        "runtime": "@vercel/node@18.x"
-      }
-    },
-    "rewrites": [
-      {
-        "source": "/",
-        "destination": "/public/index.html"
-      }
-    ]
-  }
+  "rewrites": [
+    {
+      "source": "/",
+      "destination": "/public/index.html"
+    }
+  ]
+}
