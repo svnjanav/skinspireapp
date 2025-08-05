@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Image Scanner</title>
+    <title>Skinspire - Your personal beauty assistance</title>
     <style>
         * {
             margin: 0;
@@ -13,7 +13,7 @@
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #ecbbcb 0%, #d4a5b8 50%, #c391a5 100%);
             min-height: 100vh;
             padding: 20px;
         }
@@ -22,10 +22,11 @@
             max-width: 1200px;
             margin: 0 auto;
             background: rgba(255, 255, 255, 0.95);
-            border-radius: 20px;
+            border-radius: 25px;
             padding: 30px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-            backdrop-filter: blur(10px);
+            box-shadow: 0 25px 50px rgba(195, 145, 165, 0.3);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
         }
 
         .header {
@@ -34,61 +35,93 @@
         }
 
         .header h1 {
-            color: #333;
-            font-size: 2.5rem;
-            margin-bottom: 10px;
-            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: #8B4B6B;
+            font-size: 2.8rem;
+            margin-bottom: 15px;
+            background: linear-gradient(135deg, #8B4B6B, #B8738D);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
+            font-weight: 700;
         }
 
         .header p {
-            color: #666;
-            font-size: 1.1rem;
+            color: #6B4C57;
+            font-size: 1.2rem;
+            margin-bottom: 20px;
         }
 
         .main-content {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 30px;
+            gap: 35px;
             margin-bottom: 30px;
         }
 
         .upload-section {
-            background: #f8f9fa;
-            border-radius: 15px;
-            padding: 30px;
+            background: linear-gradient(135deg, #f8e8ed, #f0d4e0);
+            border-radius: 20px;
+            padding: 35px;
             text-align: center;
-            border: 2px dashed #ddd;
+            border: 3px dashed #d4a5b8;
             transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .upload-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(139, 75, 107, 0.1) 0%, transparent 70%);
+            animation: shimmer 3s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        @keyframes shimmer {
+            0%, 100% { transform: rotate(0deg); }
+            50% { transform: rotate(180deg); }
         }
 
         .upload-section:hover {
-            border-color: #667eea;
-            background: #f0f2ff;
+            border-color: #8B4B6B;
+            background: linear-gradient(135deg, #f0d4e0, #e8c2d4);
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(139, 75, 107, 0.2);
         }
 
         .upload-area {
             cursor: pointer;
             padding: 40px 20px;
+            position: relative;
+            z-index: 1;
         }
 
         .upload-icon {
-            font-size: 3rem;
-            color: #667eea;
+            font-size: 4rem;
             margin-bottom: 20px;
+            animation: bounce 2s ease-in-out infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
         }
 
         .upload-text {
-            color: #333;
-            font-size: 1.1rem;
+            color: #8B4B6B;
+            font-size: 1.3rem;
             margin-bottom: 10px;
+            font-weight: 600;
         }
 
         .upload-subtext {
-            color: #666;
-            font-size: 0.9rem;
+            color: #B8738D;
+            font-size: 1rem;
         }
 
         .file-input {
@@ -96,25 +129,36 @@
         }
 
         .preview-section {
-            background: #f8f9fa;
-            border-radius: 15px;
-            padding: 20px;
+            background: linear-gradient(135deg, #f8e8ed, #f0d4e0);
+            border-radius: 20px;
+            padding: 25px;
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
-            min-height: 300px;
+            min-height: 350px;
+            border: 2px solid #e8c2d4;
         }
 
         .preview-image {
             max-width: 100%;
-            max-height: 400px;
-            border-radius: 10px;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            max-height: 300px;
+            border-radius: 15px;
+            box-shadow: 0 15px 30px rgba(139, 75, 107, 0.2);
+            margin-bottom: 15px;
+        }
+
+        .image-info {
+            text-align: center;
+            color: #8B4B6B;
+            font-size: 0.9rem;
         }
 
         .placeholder {
-            color: #999;
+            color: #B8738D;
             font-style: italic;
+            text-align: center;
+            font-size: 1.1rem;
         }
 
         .question-section {
@@ -124,34 +168,59 @@
 
         .question-input {
             width: 100%;
-            padding: 15px 20px;
-            border: 2px solid #ddd;
-            border-radius: 10px;
-            font-size: 1rem;
-            margin-bottom: 15px;
-            transition: border-color 0.3s ease;
+            padding: 18px 25px;
+            border: 3px solid #d4a5b8;
+            border-radius: 25px;
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+            background: linear-gradient(135degrees, #f8e8ed, #f0d4e0);
+            color: #8B4B6B;
         }
 
         .question-input:focus {
             outline: none;
-            border-color: #667eea;
+            border-color: #8B4B6B;
+            box-shadow: 0 0 20px rgba(139, 75, 107, 0.2);
+        }
+
+        .question-input::placeholder {
+            color: #B8738D;
         }
 
         .analyze-btn {
-            background: linear-gradient(135deg, #667eea, #764ba2);
+            background: linear-gradient(135deg, #8B4B6B, #B8738D);
             color: white;
             border: none;
-            padding: 15px 30px;
-            border-radius: 10px;
-            font-size: 1.1rem;
+            padding: 18px 40px;
+            border-radius: 50px;
+            font-size: 1.2rem;
             cursor: pointer;
             transition: all 0.3s ease;
             width: 100%;
+            font-weight: 600;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .analyze-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.5s;
+        }
+
+        .analyze-btn:hover::before {
+            left: 100%;
         }
 
         .analyze-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(139, 75, 107, 0.4);
         }
 
         .analyze-btn:disabled {
@@ -161,28 +230,29 @@
         }
 
         .results-section {
-            background: #f8f9fa;
-            border-radius: 15px;
-            padding: 25px;
-            margin-top: 20px;
-            border-left: 4px solid #667eea;
+            background: linear-gradient(135deg, #f8e8ed, #f0d4e0);
+            border-radius: 20px;
+            padding: 30px;
+            margin-top: 25px;
+            border-left: 5px solid #8B4B6B;
+            box-shadow: 0 10px 25px rgba(139, 75, 107, 0.1);
         }
 
         .loading {
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 40px;
+            padding: 50px;
         }
 
         .spinner {
-            width: 40px;
-            height: 40px;
-            border: 4px solid #f3f3f3;
-            border-top: 4px solid #667eea;
+            width: 50px;
+            height: 50px;
+            border: 5px solid #f0d4e0;
+            border-top: 5px solid #8B4B6B;
             border-radius: 50%;
             animation: spin 1s linear infinite;
-            margin-right: 15px;
+            margin-right: 20px;
         }
 
         @keyframes spin {
@@ -191,47 +261,60 @@
         }
 
         .answer {
-            color: #333;
+            color: #6B4C57;
             line-height: 1.6;
             font-size: 1rem;
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(139, 75, 107, 0.1);
         }
 
         .features {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            margin-top: 30px;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-top: 40px;
         }
 
         .feature {
-            background: rgba(102, 126, 234, 0.1);
-            padding: 20px;
-            border-radius: 10px;
+            background: linear-gradient(135deg, rgba(139, 75, 107, 0.1), rgba(184, 115, 141, 0.1));
+            padding: 25px;
+            border-radius: 20px;
             text-align: center;
+            border: 2px solid rgba(139, 75, 107, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .feature:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(139, 75, 107, 0.2);
+            border-color: #8B4B6B;
         }
 
         .feature-icon {
-            font-size: 2rem;
-            color: #667eea;
-            margin-bottom: 10px;
+            font-size: 3rem;
+            margin-bottom: 15px;
         }
 
         .feature h3 {
-            color: #333;
-            margin-bottom: 10px;
+            color: #8B4B6B;
+            margin-bottom: 12px;
+            font-size: 1.2rem;
         }
 
         .feature p {
-            color: #666;
-            font-size: 0.9rem;
+            color: #6B4C57;
+            font-size: 0.95rem;
+            line-height: 1.5;
         }
 
         .error-message {
             background: #f8d7da;
             border: 1px solid #f5c6cb;
             color: #721c24;
-            padding: 15px;
-            border-radius: 5px;
+            padding: 20px;
+            border-radius: 15px;
             margin-top: 10px;
         }
 
@@ -239,8 +322,8 @@
             background: #d4edda;
             border: 1px solid #c3e6cb;
             color: #155724;
-            padding: 15px;
-            border-radius: 5px;
+            padding: 20px;
+            border-radius: 15px;
             margin-top: 10px;
         }
 
@@ -250,7 +333,7 @@
             }
             
             .header h1 {
-                font-size: 2rem;
+                font-size: 2.2rem;
             }
         }
     </style>
@@ -258,58 +341,62 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>🤖 AI Image Scanner</h1>
-            <p>Upload an image and ask questions to get AI-powered insights</p>
+            <h1>💄 Skinspire</h1>
+            <p>Upload a beauty product and ask questions to get personalised skincare insights</p>
         </div>
 
         <div class="main-content">
             <div class="upload-section">
                 <div class="upload-area" onclick="document.getElementById('imageInput').click()">
                     <div class="upload-icon">📸</div>
-                    <div class="upload-text">Click to upload an image</div>
+                    <div class="upload-text">Click to upload product image</div>
                     <div class="upload-subtext">Supports JPG, PNG, GIF, WebP (max 20MB)</div>
                 </div>
                 <input type="file" id="imageInput" class="file-input" accept="image/*">
             </div>
 
             <div class="preview-section" id="previewSection">
-                <div class="placeholder">Image preview will appear here</div>
+                <div class="placeholder">
+                    🖼️ Product image will appear here
+                    <br><br>
+                    <small>Make sure the ingredient list is clearly visible</small>
+                </div>
             </div>
         </div>
 
         <div class="question-section">
             <input type="text" class="question-input" id="questionInput" 
-                   placeholder="Ask a question about the image (e.g., 'What objects do you see?', 'Describe this image', 'What's the main subject?')">
+                   placeholder="Ask about ingredients, skin compatibility, or usage tips (e.g., 'Is this suitable for sensitive skin?', 'What are the main ingredients?')">
             <button class="analyze-btn" id="analyzeBtn" onclick="analyzeImage()">
-                🔍 Analyze Image
+                🔬 Analyze Product & Get Beauty Insights
             </button>
         </div>
 
         <div class="results-section" id="resultsSection" style="display: none;">
-            <h3>AI Analysis Results:</h3>
+            <h3 style="color: #8B4B6B; font-size: 1.4rem; margin-bottom: 20px; font-weight: 600;">✨ Beauty Analysis Results:</h3>
             <div id="analysisResults"></div>
         </div>
 
         <div class="features">
             <div class="feature">
-                <div class="feature-icon">🔍</div>
-                <h3>Object Detection</h3>
-                <p>Identify and describe objects, people, and scenes in your images</p>
+                <div class="feature-icon">🧪</div>
+                <h3>Ingredient Analysis</h3>
+                <p>Identify and analyze beauty ingredients, their benefits, and effects on different skin types</p>
             </div>
             <div class="feature">
-                <div class="feature-icon">📝</div>
-                <h3>Text Recognition</h3>
-                <p>Extract and read text content from documents and signs</p>
+                <div class="feature-icon">👤</div>
+                <h3>Personalized Recommendations</h3>
+                <p>Get customized skincare advice based on your specific skin concerns and product ingredients</p>
             </div>
             <div class="feature">
-                <div class="feature-icon">🎨</div>
-                <h3>Visual Analysis</h3>
-                <p>Analyze colors, composition, style, and artistic elements</p>
+                <div class="feature-icon">⚠️</div>
+                <h3>Safety & Compatibility</h3>
+                <p>Detect potential allergens and incompatible ingredients for safer skincare routines</p>
             </div>
             <div class="feature">
                 <div class="feature-icon">💡</div>
-                <h3>Smart Insights</h3>
-                <p>Get contextual information and answer specific questions</p>
+                <h3>Beauty Insights</h3>
+                <p>Learn about product usage, application tips, and ingredient interactions</p>
             </div>
         </div>
     </div>
@@ -330,12 +417,12 @@
                 try {
                     // Show loading state
                     const previewSection = document.getElementById('previewSection');
-                    previewSection.innerHTML = '<div class="placeholder">Processing image...</div>';
+                    previewSection.innerHTML = '<div class="placeholder">📤 Processing image...</div>';
                     
                     // Compress image for better performance and lower costs
                     const compressedImage = await compressImage(file);
                     currentImage = compressedImage;
-                    displayImage(compressedImage);
+                    displayImage(compressedImage, file.name, file.size);
                 } catch (error) {
                     console.error('Image processing error:', error);
                     alert('Error processing image. Please try a different image.');
@@ -343,20 +430,27 @@
             }
         });
 
-        function displayImage(src) {
+        function displayImage(src, name, size) {
             const previewSection = document.getElementById('previewSection');
-            previewSection.innerHTML = `<img src="${src}" alt="Uploaded image" class="preview-image">`;
+            const sizeKB = (size / 1024).toFixed(1);
+            previewSection.innerHTML = `
+                <img src="${src}" alt="Uploaded image" class="preview-image">
+                <div class="image-info">
+                    📄 ${name}<br>
+                    📊 ${sizeKB} KB
+                </div>
+            `;
         }
 
         async function analyzeImage() {
             if (!currentImage) {
-                alert('Please upload an image first!');
+                alert('Please upload a product image first! 📸');
                 return;
             }
 
             const question = document.getElementById('questionInput').value.trim();
             if (!question) {
-                alert('Please enter a question about the image!');
+                alert('Please enter a question about your beauty product! 💄');
                 return;
             }
 
@@ -369,7 +463,7 @@
             analysisResults.innerHTML = `
                 <div class="loading">
                     <div class="spinner"></div>
-                    <span>Analyzing image with GPT-4 Vision...</span>
+                    <span>🔬 Analyzing your beauty product with AI...</span>
                 </div>
             `;
             analyzeBtn.disabled = true;
@@ -409,8 +503,8 @@
                 }
                 
                 analysisResults.innerHTML = `
-                    <div class="answer" style="color: #e74c3c;">
-                        <strong>Error:</strong> ${errorMessage}
+                    <div class="answer" style="color: #8B4B6B;">
+                        <strong>❌ Error:</strong> ${errorMessage}
                         <br><br>
                         <small>If this error persists, please try again later or contact support.</small>
                     </div>
@@ -452,22 +546,36 @@
         // Handle drag and drop
         const uploadSection = document.querySelector('.upload-section');
         
-        uploadSection.addEventListener('dragover', (e) => {
-            e.preventDefault();
-            uploadSection.style.borderColor = '#667eea';
-            uploadSection.style.background = '#f0f2ff';
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            uploadSection.addEventListener(eventName, preventDefaults, false);
         });
 
-        uploadSection.addEventListener('dragleave', (e) => {
+        function preventDefaults(e) {
             e.preventDefault();
-            uploadSection.style.borderColor = '#ddd';
-            uploadSection.style.background = '#f8f9fa';
+            e.stopPropagation();
+        }
+
+        ['dragenter', 'dragover'].forEach(eventName => {
+            uploadSection.addEventListener(eventName, highlight, false);
         });
+
+        ['dragleave', 'drop'].forEach(eventName => {
+            uploadSection.addEventListener(eventName, unhighlight, false);
+        });
+
+        function highlight(e) {
+            uploadSection.style.borderColor = '#8B4B6B';
+            uploadSection.style.background = 'linear-gradient(135deg, #f0d4e0, #e8c2d4)';
+        }
+
+        function unhighlight(e) {
+            uploadSection.style.borderColor = '#d4a5b8';
+            uploadSection.style.background = 'linear-gradient(135deg, #f8e8ed, #f0d4e0)';
+        }
 
         uploadSection.addEventListener('drop', async (e) => {
             e.preventDefault();
-            uploadSection.style.borderColor = '#ddd';
-            uploadSection.style.background = '#f8f9fa';
+            unhighlight(e);
             
             const files = e.dataTransfer.files;
             if (files.length > 0 && files[0].type.startsWith('image/')) {
@@ -480,11 +588,11 @@
 
                 try {
                     const previewSection = document.getElementById('previewSection');
-                    previewSection.innerHTML = '<div class="placeholder">Processing image...</div>';
+                    previewSection.innerHTML = '<div class="placeholder">📤 Processing image...</div>';
                     
                     const compressedImage = await compressImage(file);
                     currentImage = compressedImage;
-                    displayImage(compressedImage);
+                    displayImage(compressedImage, file.name, file.size);
                 } catch (error) {
                     console.error('Image processing error:', error);
                     alert('Error processing image. Please try a different image.');
